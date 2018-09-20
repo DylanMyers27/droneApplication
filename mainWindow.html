@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link href="css/main.css" rel="stylesheet" />
+    <title>Drone Application</title>
+    <script>
+            window.onload = function () {
+            
+            var dps = []; // dataPoints
+            var chart = new CanvasJS.Chart("chartContainer", {
+                title :{
+                    text: "Nitrate Concentrations"
+                },
+                axisY: {
+                    includeZero: false,
+                    title: "Nitrate Levels",
+                },
+                axisX:{
+                    title: "Number of Samples"
+                },      
+                data: [{
+                    type: "line",
+                    dataPoints: dps,
+                }]
+            });
+            
+            var xVal = 0;
+            var yVal = 100; 
+            var updateInterval = 1000;
+            var dataLength = 20; // number of dataPoints visible at any point
+            
+            var updateChart = function (count) {
+            
+                count = count || 1;
+            
+                for (var j = 0; j < count; j++) {
+                    yVal = yVal +  Math.round(5 + Math.random() *(-5-5));
+                    dps.push({
+                        x: xVal,
+                        y: yVal
+                    });
+                    xVal++;
+                }
+            
+                if (dps.length > dataLength) {
+                    dps.shift();
+                }
+            
+                chart.render();
+            };
+            
+            updateChart(dataLength);
+            setInterval(function(){updateChart()}, updateInterval);
+            
+            }
+            </script>
+          
+</head>
+<body>
+
+    <!-- <form> 
+        Enter full name here:<br>
+        <input type="text" name="fname"><br>
+        <button type="button" class="submitButton">Submit</button>
+    </form> -->
+    
+    
+    <h1>Water Quality Sampling Drone Application</h1>
+    <button type="button" class="resetButton">Restart Testing Sequence</button>
+    <button type="button" class="startButton">Start Testing Sequence</button>
+    
+    <div id="map"></div>
+    <script src="js/main.js"></script>
+    <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB86Iq8lcUqgtMSdGpX42A9F1c3rDBmTMw&callback=initMap"></script>
+    
+    <table class="tg">
+            <tr>
+              <th class="tg-0lax">DateTime</th>
+              <th class="tg-0lax">Longitude</th>
+              <th class="tg-0lax">Latitude</th>
+              <th class="tg-0lax">Nitrate Levels</th>
+              <th class="tg-0lax">Conductivity</th>
+              <th class="tg-0lax">Drone Operator</th>
+            </tr>
+            <tr>
+              <td class="tg-0lax"></td>
+              <td class="tg-0lax"></td>
+              <td class="tg-0lax"></td>
+              <td class="tg-0lax"></td>
+              <td class="tg-0lax"></td>
+              <td class="tg-0lax"></td>
+            </tr>
+            <tr>
+              <td class="tg-0lax"></td>
+              <td class="tg-0lax"></td>
+              <td class="tg-0lax"></td>
+              <td class="tg-0lax"></td>
+              <td class="tg-0lax"></td>
+              <td class="tg-0lax"></td>
+            </tr>
+            <tr>
+              <td class="tg-0lax"></td>
+              <td class="tg-0lax"></td>
+              <td class="tg-0lax"></td>
+              <td class="tg-0lax"></td>
+              <td class="tg-0lax"></td>
+              <td class="tg-0lax"></td>
+            </tr>
+            <tr>
+              <td class="tg-0lax"></td>
+              <td class="tg-0lax"></td>
+              <td class="tg-0lax"></td>
+              <td class="tg-0lax"></td>
+              <td class="tg-0lax"></td>
+              <td class="tg-0lax"></td>
+            </tr>
+            <tr>
+              <td class="tg-0lax"></td>
+              <td class="tg-0lax"></td>
+              <td class="tg-0lax"></td>
+              <td class="tg-0lax"></td>
+              <td class="tg-0lax"></td>
+              <td class="tg-0lax"></td>
+            </tr>
+          </table>
+
+          <div id="chartContainer" style="background-color:black;"></div>
+          <script src="https://canvasjs.com/assets/script/jquery-1.11.1.min.js"></script>
+          <script src="js/canvasjs.min.js"></script>
+</body>
+</html>

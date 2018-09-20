@@ -1,0 +1,15 @@
+{
+  "name": "droneapplication",
+  "version": "1.0.0",
+  "description": "Drone Application for senior design 2 project",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron ."
+  },
+  "author": "Dylan Myers",
+  "license": "MIT",
+  "dependencies": {
+    "electron": "^2.0.8",
+    "save": "^2.3.2"
+  }
+}
