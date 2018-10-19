@@ -9,7 +9,20 @@
   "author": "Dylan Myers",
   "license": "MIT",
   "dependencies": {
+    "bootswatch": "^4.1.3",
+    "bulma": "^0.7.2",
+    "convert-csv-to-json": "0.0.13",
     "electron": "^2.0.8",
+    "fontawesome": "^4.7.2",
     "save": "^2.3.2"
-  }
+  },
+  "devDependencies": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/DylanMyers27/droneApplication.git"
+  },
+  "bugs": {
+    "url": "https://github.com/DylanMyers27/droneApplication/issues"
+  },
+  "homepage": "https://github.com/DylanMyers27/droneApplication#readme"
 }
