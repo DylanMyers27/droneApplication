@@ -3,76 +3,91 @@
   <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <link rel="icon"
+      type="image/png"
+      href="img/FIULogo.png">
     <title>Water Quality Sampling Drone Application</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
-    integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
-    <link rel="stylesheet" href="/css/fontawesome.css">
+    integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous"/>
     <link href="css/main.css" rel="stylesheet"/>
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/2.0.0/jquery.min.js"></script>
+    <script src="node_modules/jquery/dist/jquery.js"></script>
     <script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
-    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
-      <script type="text/javascript" >
-
-
+    <!-- <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script> -->
+    <script>
+      var previous = null;
+      var current = null;
+      setInterval(function() {
+          $.getJSON("data.json", function(json) {
+              current = JSON.stringify(json);
+              if (previous && current && previous !== current) {
+                  console.log('refresh');
+                  location.reload();
+              }
+              previous = current;
+          });
+      }, 1000);
+    </script>
+    <script type="text/javascript" >
               $(document).ready(function init() {
                loadJSON(function(response) {
                   actual_JSON = JSON.parse(response);
 
-                  console.log(actual_JSON);
+                  console.table(actual_JSON);
                });
                return actual_JSON;
              });
 
-              $(document).ready(function () {
+      $(document).ready(function () {
 
-              var dps = []; // dataPoints
-              var chart = new CanvasJS.Chart("chartContainer", {
-                  title :{
-                      text: "Nitrate Concentrations"
-                  },
-                  axisY: {
-                      includeZero: false,
-                      title: "Nitrate Levels",
-                  },
-                  axisX:{
-                      title: "Number of Samples"
-                  },
-                  data: [{
-                      type: "line",
-                      dataPoints: dps,
-                  }]
+      var dps = []; // dataPoints
+      var chart = new CanvasJS.Chart("chartContainer", {
+          title :{
+              text: "Nitrate Concentrations"
+          },
+          axisY: {
+              includeZero: false,
+              title: "Nitrate Levels",
+          },
+          axisX:{
+              title: "Number of Samples"
+          },
+          data: [{
+              type: "line",
+              dataPoints: dps,
+          }]
+      });
+
+
+      var xVal = 0;
+      var yVal = 5.0;
+      var updateInterval = 2500;
+      var dataLength = 10; // number of dataPoints visible at any point
+
+      var updateChart = function (count) {
+
+          count = count || 1;
+
+          for (var j = 0; j < count; j++) {
+              yVal = Number(actual_JSON[j].Latitude);
+              dps.push({
+                  x: xVal,
+                  y: yVal
               });
+              xVal++;
+          }
 
+          if (dps.length < dataLength) {
+              dps.shift();
+          }
 
-              var xVal = 0;
-              var yVal = 5.0;
-              var updateInterval = 2000;
-              var dataLength = 10; // number of dataPoints visible at any point
+          chart.render();
+      };
 
-              var updateChart = function (count) {
-
-                  count = count || 1;
-
-                  for (var j = 0; j < count; j++) {
-                      yVal = yVal +  Math.round(5 + Math.random() *(-5-5));
-                      dps.push({
-                          x: xVal,
-                          y: yVal
-                      });
-                      xVal++;
-                  }
-
-                  if (dps.length > dataLength) {
-                      dps.shift();
-                  }
-
-                  chart.render();
-              };
-
-              updateChart(dataLength);
-              setInterval(function(){updateChart()}, updateInterval);
-            });
-      </script>
+      updateChart(dataLength);
+      setInterval(function(){updateChart()}, updateInterval);
+    });
+    </script>
   </head>
 <body>
 
@@ -155,7 +170,6 @@
           <th>DateTime</th>
           <th>Latitude</th>
           <th>Longitude</th>
-          <th>Altitude</th>
           <th>Nitrate Level (mg/L)</th>
         </tr>
     </table>
@@ -165,12 +179,14 @@
 
     <a href="#" class="back-to-top"> <img src="img/upbtn.png" class ="up" alt="up"> </a>
 
-    <footer style = "background-color:#081E3f;"> <a href="https://www.instagram.com/waterqualitysamplingdrone/?hl=en" target="_blank"><img src="img/instaLogo.png" class="instagram"></a>
+    <footer style = "background-color:#081E3f;">
+      <a href="https://www.instagram.com/waterqualitysamplingdrone/?hl=en" target="_blank"><img src="img/instaLogo.png" class="instagram"></a>
+      <a href="https://www.linkedin.com/in/dylan-myers/" target="_blank" ><img src="img/DylanHeadshot.png" class="headshot" style="height:30px; border-radius:5px;"></a>
     </footer>
 
     <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB86Iq8lcUqgtMSdGpX42A9F1c3rDBmTMw&callback=initMap&v=3.31"></script>
 
-<script src="js/main.js"></script>
-  </body>
+    <script src="js/main.js"></script>
+</body>
 
 </html>

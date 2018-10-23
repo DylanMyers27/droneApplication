@@ -1,37 +1,24 @@
-const electron = require('electron');
-const url = require('url');
-const path = require('path');
-
-const {app, BrowserWindow} = electron;
-
-let mainWindow;
-
-//Log information before displaying it
-
-var actual_JSON;
-
-app.on('ready', function(){ //loads via election to load "npm start"
-   //Creates new window
-   mainWindow = new BrowserWindow({});
-
-   //Load HTML file into window
-mainWindow.loadURL(url.format({
-        pathname: path.join(__dirname, 'mainWindow.html'),
-        protocol: 'file:',
-        slashes: true
-    }));
-});
+var actual_JSON = init();
 
 function getDate(){
   var d = new Date();
   return d.toString();
 }
 
+function init() {
+ loadJSON(function(response) {
+    actual_JSON = JSON.parse(response);
+
+    // console.log(actual_JSON);
+ });
+ return actual_JSON;
+}
 
 function loadJSON(callback) {
     var xobj = new XMLHttpRequest();
-        xobj.overrideMimeType("application/json");
-    xobj.open('GET', 'data.json', true); // Replace 'my_data' with the path to your file
+
+    xobj.overrideMimeType("application/json");
+    xobj.open('GET', "data.json", true); // Replace 'my_data' with the path to your file
     xobj.onreadystatechange = function () {
           if (xobj.readyState == 4 && xobj.status == "200") {
             // Required use of an anonymous callback as .open will NOT return a value but simply returns undefined in asynchronous mode
@@ -47,6 +34,7 @@ function submitFunction() {
     actual_JSON = actual_JSON;
 
 while(i < actual_JSON.length){
+
   var table = document.getElementById("myTable");
   var row = table.insertRow(myTable.length);
   if(actual_JSON[i].Latitude < 28.0  && actual_JSON[i].Longitude != 0.0){
@@ -55,17 +43,14 @@ while(i < actual_JSON.length){
     var cell3 = row.insertCell(2);
     var cell4 = row.insertCell(3);
     var cell5 = row.insertCell(4);
-    var cell6 = row.insertCell(5);
     cell1.innerHTML = document.getElementById("fname").value;
     cell2.innerHTML = actual_JSON[i].Datetime;
     cell3.innerHTML = actual_JSON[i].Latitude;
     cell4.innerHTML = actual_JSON[i].Longitude;
-    cell5.innerHTML = actual_JSON[i].Altitude;
-    cell6.innerHTML = actual_JSON[i].Conductivity;
+    // cell6.innerHTML = actual_JSON[i].Nitrate;
+    }
+    i++;
   }
-  i++;
-}
-
 }
 
 
@@ -121,7 +106,8 @@ function downloadCSV(csv, filename) {
 
 function initMap() {
 
-  actual_JSON = actual_JSON;
+  // actual_JSON = init();
+
   var center = {lat: Number(actual_JSON[0].Latitude), lng: Number(actual_JSON[0].Longitude)};
 
   var map = new google.maps.Map(document.getElementById('map'), {

@@ -18,7 +18,9 @@ h3{
 }
 
 #list{
+color: white;
 text-align: left;
+background-color: #081E3f;
 }
 
 #map{
@@ -53,10 +55,12 @@ img.up
 img.instagram{
   height: 30px;
   width: 30px;
-  /* float: right; */
 }
 
-
+#headshot{
+  height: 30px;
+  width: 30px;
+}
 
 .back-to-top
 {
