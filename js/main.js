@@ -1,3 +1,6 @@
+
+
+
 //fetch json
 var actual_JSON = function (){
   fetch('data.json')
@@ -17,7 +20,6 @@ setInterval(function getData(){
              location.reload();
          }
          previous = current;
-         console.table(current);
      });
  },5000);
 
@@ -69,7 +71,7 @@ function exportTableToCSV() { //does what function name says
     }
 
     // Download CSV file
-    downloadCSV(csv.join("\n"), 'actual_JSON.csv');
+    downloadCSV(csv.join("\n"), 'data.csv');
 }
 
 function downloadCSV(csv, filename) {
@@ -120,7 +122,7 @@ function initMap() { // initializes the google map
     });
   google.maps.event.addListener(marker, 'click', (function (marker, count) {
       return function () {
-        infowindow.setContent("Nitrate Level: " + actual_JSON[count].Altitude + " mg/L");
+        infowindow.setContent("Electrical Conductivity: " + actual_JSON[count].Altitude + " μS/cm");
         infowindow.open(map, marker);
       }
     })(marker, count));
@@ -143,7 +145,7 @@ jQuery(document).ready(function() { //this fuction is for the back to top button
 
     jQuery('.back-to-top').click(function(event) {
         event.preventDefault();
-        jQuery('html, body').animate({scrollTop: 0}, duration);
+        jQuery('html, body').animate({scrollTop: 6}, duration);
         return false;
     })
 });
@@ -154,11 +156,11 @@ $.get("data.json", function (data) { //this is the dynamic CanvasJS chart
 var dps = []; // dataPoints
 var chart = new CanvasJS.Chart("chartContainer", {
     title :{
-        text: "Nitrate Concentrations"
+        text: "Electrical Conductivity"
     },
     axisY: {
         includeZero: false,
-        title: "Nitrate Levels",
+        title: "Electrical Conductivity (μS/cm)",
     },
     axisX:{
         title: "Number of Samples"
@@ -172,7 +174,7 @@ var chart = new CanvasJS.Chart("chartContainer", {
 
 var xVal = 1;
 var yVal = 5.0;
-var updateInterval = 2500;
+var updateInterval = 10000;
 var dataLength = 5; // number of dataPoints visible at any point
 
 var updateChart = function (count) {

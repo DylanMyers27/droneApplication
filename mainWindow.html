@@ -8,7 +8,6 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
     integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous"/>
     <link href="css/main.css" rel="stylesheet"/>
-
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/2.0.0/jquery.min.js"></script>
     <script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
     <script src="js/jquery.js"></script>
@@ -23,8 +22,8 @@
         });
 
         $("#refreshButton").on('click', function(){
-          $("#mapContainer").fadeOut(200);
-          $("#mapContainer").fadeIn(1000);
+          $("#map").toggle(300);
+          $("#map").toggle(300);
 
           initMap();
         });
@@ -38,10 +37,7 @@
 <body>
   <nav class="navbar navbar-expand-lg navbar-light bg-*">
     <a class="navbar-brand" href="#">Water Quality Sampling Drone</a>
-      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <div class="navbar-collapse" id="navbarSupportedContent">
           <ul class="navbar-nav mr-auto">
             <li class="nav-item">
               <a class="nav-link" href="#mapContainer">Map</a>
@@ -63,20 +59,40 @@
         <li>Use the nav bar to navigate throughout the application</li>
         <li>Data will show in real-time on the table shown below</li>
         <li>Enter the drone operators name on the table below</li>
-        <li>Once the drone is in the water, press the "Start Sequence" button</li>
+        <li>Once the drone is in the water, press the button on the receiver</li>
         <li>If you are not happy with the result of the test, just run the testing sequence again!</li>
       </ol>
     </p>
   </div>
-  <div id="startBtn" class="container">
-    <button type="button" class="btn btn-lg btn-primary" onclick="myAlert()" name="button" style= "display:block; margin-left: auto; margin-right: auto;">Start Testing Sequence</button>
-
+  <!-- <div id="startBtn" class="container">
+    <button type="button" class="btn btn-lg btn-primary"  id="btn" style= "display:block; margin-left: auto; margin-right: auto;">Start Testing Sequence</button>
+    <div id="response" style="display:none; text-align:center;">
+      <h3><b>Starting testing Sequence!</b></h3>
+    </div>
     <script>
-    function myAlert() {
-        alert("Starting test Sequence");
-    }
+
+    $('button#btn').click(function(){
+      $( document ).ready(function(){
+         $('#response').fadeIn('slow', function(){
+            $('#response').delay(3000).fadeOut();
+         });
+      });
+    });
+
+    $('button#btn').click(function(){
+      $.ajax({
+         request: 'GET',
+         url: "app.py",
+         success: function(response) {
+           current = JSON.stringify(response);
+         console.log(current);
+
+   }
+});
+    });
+
     </script>
-  </div>
+  </div> -->
 
   <div id="mapContainer" class="container">
     <div class="row">
@@ -116,7 +132,7 @@
           <th>DateTime</th>
           <th>Latitude</th>
           <th>Longitude</th>
-          <th>Nitrate Level (mg/L)</th>
+          <th>Electrical Conductivity (μS/cm)</th>
     </table>
   </div>
 

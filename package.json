@@ -15,7 +15,9 @@
     "convert-csv-to-json": "0.0.13",
     "electron": "^2.0.8",
     "fontawesome": "^4.7.2",
+    "johnny-five": "^1.0.0",
     "jquery": "^3.3.1",
+    "keypress": "^0.2.1",
     "save": "^2.3.2"
   },
   "devDependencies": {},
